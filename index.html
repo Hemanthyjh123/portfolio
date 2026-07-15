@@ -11,6 +11,7 @@
     --bg: #0a0e14;
     --bg-panel: #11161f;
     --bg-panel-hover: #161d2a;
+    --bg-panel-alt: #0d1219;
     --border: #232b38;
     --border-hover: #3a4658;
     --text: #d7dee8;
@@ -19,6 +20,7 @@
     --amber: #e0a941;
     --blue: #5aa2ff;
     --red: #ff6b6b;
+    --purple: #b58cff;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'Inter', sans-serif;
   }
@@ -31,10 +33,11 @@
     line-height: 1.6;
     background-image:
       radial-gradient(circle at 20% 0%, rgba(90,162,255,0.07), transparent 40%),
-      radial-gradient(circle at 80% 15%, rgba(63,214,122,0.06), transparent 40%);
+      radial-gradient(circle at 80% 15%, rgba(63,214,122,0.06), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(181,140,255,0.05), transparent 45%);
   }
   ::selection { background: var(--green); color: #0a0e14; }
-  a { color: var(--blue); }
+  a { color: var(--blue); text-decoration: none; }
 
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
 
@@ -45,7 +48,7 @@
     backdrop-filter: blur(8px);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20;
   }
   .statusbar-inner {
     display: flex;
@@ -69,6 +72,15 @@
     margin-right: 6px;
     animation: pulse 2s infinite;
   }
+  .statusbar-nav {
+    display: flex;
+    gap: 18px;
+  }
+  .statusbar-nav a {
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .statusbar-nav a:hover { color: var(--green); }
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
@@ -128,6 +140,68 @@
   }
   .meta-chip b { color: var(--text); font-weight: 500; }
 
+  /* ---- Hero contact row ---- */
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .contact-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .contact-btn.linkedin:hover {
+    border-color: var(--blue);
+    background: rgba(90,162,255,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(90,162,255,0.15);
+  }
+  .contact-btn.email:hover {
+    border-color: var(--green);
+    background: rgba(63,214,122,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(63,214,122,0.15);
+  }
+  .contact-btn.phone:hover {
+    border-color: var(--amber);
+    background: rgba(224,169,65,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(224,169,65,0.15);
+  }
+  .contact-btn .copied-tag {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green);
+    color: #0a0e14;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, top 0.2s;
+    white-space: nowrap;
+  }
+  .contact-btn .copied-tag.show {
+    opacity: 1;
+    top: -34px;
+  }
+
   /* ---- Section shared ---- */
   section.block { padding: 56px 0; border-bottom: 1px solid var(--border); }
   .section-head {
@@ -161,6 +235,67 @@
     margin-bottom: 24px;
     opacity: 0.75;
   }
+
+  /* ---- About ---- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+  }
+  .about-text p {
+    color: var(--text);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-side {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    align-self: start;
+  }
+  .about-side .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.85rem;
+  }
+  .about-side .row:last-child { border-bottom: none; }
+  .about-side .row span:first-child {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  .about-side .row span:last-child { color: var(--text); font-weight: 500; text-align: right; }
+  @media (max-width: 760px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Focus areas ---- */
+  .focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .focus-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .focus-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+  .focus-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+  .focus-card h3 { font-size: 0.95rem; color: #fff; margin-bottom: 8px; }
+  .focus-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
 
   /* ---- Skills grid (clickable service cards) ---- */
   .services-grid {
@@ -262,6 +397,44 @@
   .cert-text .title { font-weight: 600; color: var(--text); font-size: 0.95rem; }
   .cert-text .sub { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
+  /* ---- Experience timeline ---- */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 5px; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 32px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -28px; top: 4px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--green);
+  }
+  .timeline-item .t-period {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--green);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .timeline-item h3 { font-size: 1rem; color: #fff; margin-bottom: 4px; }
+  .timeline-item .t-org { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+  .timeline-item ul { padding-left: 18px; }
+  .timeline-item li { font-size: 0.85rem; color: var(--text); margin-bottom: 6px; }
+
   /* ---- Projects (clickable accordion) ---- */
   .deploy-list { display: flex; flex-direction: column; gap: 14px; }
   .deploy {
@@ -344,6 +517,68 @@
     transform: translateY(-1px);
   }
 
+  /* ---- Contact section ---- */
+  .contact-card {
+    background: linear-gradient(135deg, rgba(63,214,122,0.06), rgba(90,162,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px;
+    text-align: center;
+  }
+  .contact-card h3 {
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .contact-card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    max-width: 520px;
+    margin: 0 auto 28px;
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .contact-link svg { width: 17px; height: 17px; }
+  .contact-link.li:hover { border-color: var(--blue); box-shadow: 0 8px 22px rgba(90,162,255,0.18); transform: translateY(-3px); }
+  .contact-link.em:hover { border-color: var(--green); box-shadow: 0 8px 22px rgba(63,214,122,0.18); transform: translateY(-3px); }
+  .contact-link.ph:hover { border-color: var(--amber); box-shadow: 0 8px 22px rgba(224,169,65,0.18); transform: translateY(-3px); }
+  .contact-link .copied-tag {
+    position: absolute;
+    top: -32px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--green);
+    color: #0a0e14;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, top 0.2s;
+    white-space: nowrap;
+  }
+  .contact-link .copied-tag.show { opacity: 1; top: -36px; }
+
   /* ---- Footer ---- */
   footer {
     padding: 40px 0 60px;
@@ -353,9 +588,26 @@
     color: var(--muted);
   }
   footer .dot { color: var(--green); }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+  .footer-links a {
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--green); }
+  .footer-links svg { width: 14px; height: 14px; }
 
   @media (max-width: 600px) {
     .deploy-name { font-size: 0.95rem; }
+    .contact-card { padding: 28px 20px; }
+    .contact-links { flex-direction: column; }
   }
 </style>
 </head>
@@ -365,14 +617,21 @@
   <div class="statusbar-inner">
     <span><span class="dot"></span>ALL SYSTEMS OPERATIONAL</span>
     <span id="clock-line">region: infanion-software-solutions · env: production</span>
+    <div class="statusbar-nav">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
   </div>
 </div>
 
 <div class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">whoami</div>
-    <h1>Hemanth Y J</h1>
+    <div class="eyebrow">status: online</div>
+    <h1>Hemanth <span class="accent">Y J</span></h1>
     <div class="role-line">
       <strong>Associate Cloud &amp; DevOps Engineer</strong> — currently working at Infanion Software Solutions
     </div>
@@ -381,6 +640,86 @@
       <div class="meta-chip">role: <b>Associate Cloud &amp; DevOps Engineer</b></div>
       <div class="meta-chip">cert: <b>AWS SAA</b></div>
       <div class="meta-chip">status: <b style="color:var(--green)">active</b></div>
+      <div class="meta-chip">location: <b>India</b></div>
+    </div>
+
+    <div class="contact-row">
+      <a class="contact-btn linkedin" href="https://www.linkedin.com/in/hemanth-y-j-7b52351aa" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        LinkedIn
+      </a>
+      <button class="contact-btn email" onclick="copyText('hemanthyjh@gmail.com', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        hemanthyjh@gmail.com
+        <span class="copied-tag">copied!</span>
+      </button>
+      <button class="contact-btn phone" onclick="copyText('7022515576', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 70225 15576
+        <span class="copied-tag">copied!</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="section-head">
+      <h2>about // profile.md</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an Associate Cloud &amp; DevOps Engineer at Infanion Software Solutions, where I design, provision, and operate cloud infrastructure that real production traffic runs on — not just proof-of-concept environments. My work sits at the intersection of infrastructure automation, reliability, and cost-aware architecture.</p>
+        <p>Day to day, that means writing Terraform to keep environments reproducible and version-controlled, wiring up load balancing and auto-scaling so applications stay responsive under changing load, and building observability with Prometheus, Grafana, and CloudWatch so issues get caught before they become outages.</p>
+        <p>I work comfortably across both AWS and Azure, moving between the two depending on what a project needs — whether that's EC2 and RDS on one stack or App Service and Azure Front Door on the other. I hold the AWS Certified Solutions Architect – Associate certification and I'm always looking to deepen that cloud and automation toolkit further.</p>
+      </div>
+      <div class="about-side">
+        <div class="row"><span>name</span><span>Hemanth Y J</span></div>
+        <div class="row"><span>role</span><span>Cloud &amp; DevOps Engineer</span></div>
+        <div class="row"><span>company</span><span>Infanion Software Solutions</span></div>
+        <div class="row"><span>certification</span><span>AWS SAA</span></div>
+        <div class="row"><span>email</span><span>hemanthyjh@gmail.com</span></div>
+        <div class="row"><span>phone</span><span>+91 70225 15576</span></div>
+        <div class="row"><span>linkedin</span><span><a href="https://www.linkedin.com/in/hemanth-y-j-7b52351aa" target="_blank" rel="noopener noreferrer">view profile →</a></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <h2>focus areas</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(63,214,122,0.1); color:var(--green);">☁</div>
+        <h3>Cloud Infrastructure</h3>
+        <p>Designing and provisioning secure, scalable environments across AWS and Azure for production workloads.</p>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(90,162,255,0.1); color:var(--blue);">⌘</div>
+        <h3>Infrastructure as Code</h3>
+        <p>Terraform-first workflows so every environment is reproducible, reviewable, and version-controlled.</p>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(224,169,65,0.1); color:var(--amber);">⟳</div>
+        <h3>Scaling &amp; Reliability</h3>
+        <p>Load balancing, auto-scaling, and CDN layers that keep applications fast and available under load.</p>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(181,140,255,0.1); color:var(--purple);">◎</div>
+        <h3>Observability</h3>
+        <p>Metrics, dashboards, and alerting with Prometheus, Grafana, and CloudWatch to catch issues early.</p>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(255,107,107,0.1); color:var(--red);">⛨</div>
+        <h3>Security</h3>
+        <p>Edge protection with WAF, centralized secrets management, and least-privilege IAM practices.</p>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon" style="background:rgba(63,214,122,0.1); color:var(--green);">▣</div>
+        <h3>Containers</h3>
+        <p>Docker-based packaging for consistent builds that behave the same in dev, staging, and production.</p>
+      </div>
     </div>
   </section>
 
@@ -442,6 +781,27 @@
       <div class="cert-text">
         <div class="title">AWS Certified Solutions Architect – Associate</div>
         <div class="sub">certification :: verified</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="section-head">
+      <h2>experience // timeline</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="t-period">CURRENT</div>
+        <h3>Associate Cloud &amp; DevOps Engineer</h3>
+        <div class="t-org">Infanion Software Solutions</div>
+        <ul>
+          <li>Own end-to-end cloud infrastructure across AWS and Azure for multiple client projects.</li>
+          <li>Write and maintain Terraform modules so environments stay reproducible and version-controlled.</li>
+          <li>Configure load balancing, auto-scaling, and CDN layers to keep applications responsive under load.</li>
+          <li>Set up monitoring and alerting with Prometheus, Grafana, and CloudWatch to catch issues early.</li>
+          <li>Harden environments with WAF, IAM least-privilege policies, and centralized secrets management.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -531,7 +891,48 @@
     </div>
   </section>
 
+  <section class="block" id="contact" style="border-bottom:none;">
+    <div class="section-head">
+      <h2>contact // reach out</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="contact-card">
+      <h3>Let's build something reliable together.</h3>
+      <p>Open to cloud &amp; DevOps opportunities, collaborations, and conversations about infrastructure. Reach out on LinkedIn, email, or phone — whichever is easiest for you.</p>
+      <div class="contact-links">
+        <a class="contact-link li" href="https://www.linkedin.com/in/hemanth-y-j-7b52351aa" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          linkedin.com/in/hemanth-y-j-7b52351aa
+        </a>
+        <button class="contact-link em" onclick="copyText('hemanthyjh@gmail.com', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          hemanthyjh@gmail.com
+          <span class="copied-tag">copied!</span>
+        </button>
+        <button class="contact-link ph" onclick="copyText('7022515576', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +91 70225 15576
+          <span class="copied-tag">copied!</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <footer>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/hemanth-y-j-7b52351aa" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:hemanthyjh@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        hemanthyjh@gmail.com
+      </a>
+      <a href="tel:+917022515576">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 70225 15576
+      </a>
+    </div>
     <span class="dot">●</span> build passing &nbsp;·&nbsp; last deploy: today &nbsp;·&nbsp; hemanth y j
   </footer>
 
@@ -550,6 +951,27 @@
   }
   updateClock();
   setInterval(updateClock, 1000);
+
+  // Copy-to-clipboard for email / phone buttons
+  function copyText(text, btn) {
+    const showTag = () => {
+      const tag = btn.querySelector('.copied-tag');
+      if (!tag) return;
+      tag.classList.add('show');
+      setTimeout(() => tag.classList.remove('show'), 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showTag).catch(showTag);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      showTag();
+    }
+  }
 </script>
 
 </body>
