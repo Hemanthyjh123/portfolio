@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hemanth Y J — Cloud &amp; DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg-panel: #11161f;
+    --bg-panel-hover: #151b26;
+    --border: #232b38;
+    --text: #d7dee8;
+    --muted: #7c8899;
+    --green: #3fd67a;
+    --amber: #e0a941;
+    --blue: #5aa2ff;
+    --red: #ff6b6b;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(90,162,255,0.06), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(63,214,122,0.05), transparent 40%);
+  }
+  ::selection { background: var(--green); color: #0a0e14; }
+  a { color: var(--blue); }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- Top status bar ---- */
+  .statusbar {
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,22,31,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .statusbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    max-width: 980px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .statusbar .dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: 72px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--green);
+    letter-spacing: 0.06em;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before { content: "$"; color: var(--muted); }
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: #fff;
+  }
+  h1 .accent { color: var(--green); }
+  .role-line {
+    font-family: var(--mono);
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+  .role-line strong { color: var(--text); font-weight: 500; }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .meta-chip {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+  .meta-chip b { color: var(--text); font-weight: 500; }
+
+  /* ---- Uptime signature block ---- */
+  .uptime-card {
+    margin-top: 40px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .uptime-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .uptime-value {
+    font-family: var(--mono);
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--green);
+    margin-top: 4px;
+  }
+  .uptime-value span { color: var(--muted); font-size: 1rem; font-weight: 400; }
+  .uptime-since {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  .uptime-since b { color: var(--text); }
+
+  /* ---- Section shared ---- */
+  section.block { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-head h2 {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .section-head .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-head .count {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ---- Skills grid (service cards) ---- */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 14px;
+  }
+  .service {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .service:hover { border-color: #2f3948; background: var(--bg-panel-hover); }
+  .service-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .service-name {
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .service-status {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--green);
+    background: rgba(63,214,122,0.1);
+    border: 1px solid rgba(63,214,122,0.3);
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+  .service-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---- Cert banner ---- */
+  .cert-banner {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(90deg, rgba(224,169,65,0.08), transparent);
+    border: 1px solid rgba(224,169,65,0.3);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .cert-badge {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    color: var(--amber);
+  }
+  .cert-text .title { font-weight: 600; color: var(--text); font-size: 0.95rem; }
+  .cert-text .sub { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* ---- Projects (deployment log) ---- */
+  .deploy-list { display: flex; flex-direction: column; gap: 14px; }
+  .deploy {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .deploy-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .deploy-name {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: #fff;
+  }
+  .deploy-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--green);
+    background: rgba(63,214,122,0.1);
+    border: 1px solid rgba(63,214,122,0.3);
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  .deploy-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 12px; }
+  .deploy-desc.placeholder {
+    color: var(--amber);
+    font-style: italic;
+    background: rgba(224,169,65,0.06);
+    border: 1px dashed rgba(224,169,65,0.3);
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .deploy-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stack-pill {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--blue);
+    background: rgba(90,162,255,0.08);
+    border: 1px solid rgba(90,162,255,0.25);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  /* ---- Footer ---- */
+  footer {
+    padding: 40px 0 60px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  footer .dot { color: var(--green); }
+
+  @media (max-width: 600px) {
+    .uptime-card { flex-direction: column; align-items: flex-start; }
+    .uptime-since { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="statusbar-inner">
+    <span><span class="dot"></span>ALL SYSTEMS OPERATIONAL</span>
+    <span id="clock-line">region: infanion-software-solutions · env: production</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">whoami</div>
+    <h1>Hemanth Y J <span class="accent">/24</span></h1>
+    <div class="role-line">
+      <strong>Associate Cloud &amp; DevOps Engineer</strong> — currently deployed at Infanion Software Solutions
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-chip">age: <b>24</b></div>
+      <div class="meta-chip">role: <b>Associate Cloud &amp; DevOps Engineer</b></div>
+      <div class="meta-chip">cert: <b>AWS SAA</b></div>
+      <div class="meta-chip">status: <b style="color:var(--green)">active</b></div>
+    </div>
+
+    <div class="uptime-card">
+      <div>
+        <div class="uptime-label">uptime @ infanion software solutions</div>
+        <div class="uptime-value" id="uptime-counter">— <span>days</span></div>
+      </div>
+      <div class="uptime-since">
+        deployed on<br><b>21 Apr 2025</b>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="section-head">
+      <h2>services // skills</h2>
+      <div class="rule"></div>
+      <div class="count">7 active</div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service">
+        <div class="service-top"><span class="service-name">AWS</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Core cloud platform — provisioning, IAM, networking &amp; managed services.</div>
+      </div>
+      <div class="service">
+        <div class="service-top"><span class="service-name">Azure</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Secondary cloud platform for multi-cloud workloads and resource management.</div>
+      </div>
+      <div class="service">
+        <div class="service-top"><span class="service-name">Docker</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Containerizing applications for consistent builds and deployments.</div>
+      </div>
+      <div class="service">
+        <div class="service-top"><span class="service-name">Terraform</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Infrastructure as code — reproducible, version-controlled environments.</div>
+      </div>
+      <div class="service">
+        <div class="service-top"><span class="service-name">Prometheus</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Metrics collection and alerting across infrastructure and services.</div>
+      </div>
+      <div class="service">
+        <div class="service-top"><span class="service-name">Grafana</span><span class="service-status">● live</span></div>
+        <div class="service-desc">Dashboards and visualization for monitoring system health.</div>
+      </div>
+    </div>
+
+    <div class="cert-banner">
+      <div class="cert-badge">&#9878;</div>
+      <div class="cert-text">
+        <div class="title">AWS Certified Solutions Architect – Associate</div>
+        <div class="sub">certification :: verified</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="section-head">
+      <h2>deployments // projects</h2>
+      <div class="rule"></div>
+      <div class="count">3 shipped</div>
+    </div>
+
+    <div class="deploy-list">
+      <div class="deploy">
+        <div class="deploy-head">
+          <span class="deploy-name">era.be</span>
+          <span class="deploy-tag">shipped</span>
+        </div>
+        <div class="deploy-desc placeholder">
+          Add your actual project summary here — e.g. what era.be does, your role in it, and the infra/cloud work you handled.
+        </div>
+        <div class="deploy-stack">
+          <span class="stack-pill">AWS</span>
+          <span class="stack-pill">Docker</span>
+          <span class="stack-pill">Terraform</span>
+        </div>
+      </div>
+
+      <div class="deploy">
+        <div class="deploy-head">
+          <span class="deploy-name">Bleckmann ENPS</span>
+          <span class="deploy-tag">shipped</span>
+        </div>
+        <div class="deploy-desc placeholder">
+          Add your actual project summary here — what ENPS is for Bleckmann, your responsibilities, and any monitoring/CI-CD you set up.
+        </div>
+        <div class="deploy-stack">
+          <span class="stack-pill">AWS</span>
+          <span class="stack-pill">Prometheus</span>
+          <span class="stack-pill">Grafana</span>
+        </div>
+      </div>
+
+      <div class="deploy">
+        <div class="deploy-head">
+          <span class="deploy-name">DailyWorkManager</span>
+          <span class="deploy-tag">shipped</span>
+        </div>
+        <div class="deploy-desc placeholder">
+          Add your actual project summary here — what DailyWorkManager does and the cloud/devops work you contributed.
+        </div>
+        <div class="deploy-stack">
+          <span class="stack-pill">Azure App Service</span>
+          <span class="stack-pill">Azure Static Web App</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="dot">●</span> build passing &nbsp;·&nbsp; last deploy: today &nbsp;·&nbsp; hemanth y j
+  </footer>
+
+</div>
+
+<script>
+  // Live uptime counter since join date (21 Apr 2025)
+  function updateUptime() {
+    const joinDate = new Date('2025-04-21T00:00:00');
+    const now = new Date();
+    const diffMs = now - joinDate;
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('uptime-counter');
+    if (el) {
+      el.innerHTML = days.toLocaleString() + ' <span>days</span>';
+    }
+  }
+  updateUptime();
+
+  // Live clock in status bar
+  function updateClock() {
+    const now = new Date();
+    const opts = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const timeStr = now.toLocaleTimeString('en-US', opts);
+    const el = document.getElementById('clock-line');
+    if (el) {
+      el.textContent = 'region: infanion-software-solutions · ' + timeStr;
+    }
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
