@@ -10,8 +10,9 @@
   :root {
     --bg: #0a0e14;
     --bg-panel: #11161f;
-    --bg-panel-hover: #151b26;
+    --bg-panel-hover: #161d2a;
     --border: #232b38;
+    --border-hover: #3a4658;
     --text: #d7dee8;
     --muted: #7c8899;
     --green: #3fd67a;
@@ -29,8 +30,8 @@
     font-family: var(--sans);
     line-height: 1.6;
     background-image:
-      radial-gradient(circle at 20% 0%, rgba(90,162,255,0.06), transparent 40%),
-      radial-gradient(circle at 80% 20%, rgba(63,214,122,0.05), transparent 40%);
+      radial-gradient(circle at 20% 0%, rgba(90,162,255,0.07), transparent 40%),
+      radial-gradient(circle at 80% 15%, rgba(63,214,122,0.06), transparent 40%);
   }
   ::selection { background: var(--green); color: #0a0e14; }
   a { color: var(--blue); }
@@ -119,44 +120,13 @@
     border: 1px solid var(--border);
     padding: 6px 12px;
     border-radius: 6px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .meta-chip:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
   }
   .meta-chip b { color: var(--text); font-weight: 500; }
-
-  /* ---- Uptime signature block ---- */
-  .uptime-card {
-    margin-top: 40px;
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 22px 26px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .uptime-label {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .uptime-value {
-    font-family: var(--mono);
-    font-size: 1.9rem;
-    font-weight: 600;
-    color: var(--green);
-    margin-top: 4px;
-  }
-  .uptime-value span { color: var(--muted); font-size: 1rem; font-weight: 400; }
-  .uptime-since {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-align: right;
-  }
-  .uptime-since b { color: var(--text); }
 
   /* ---- Section shared ---- */
   section.block { padding: 56px 0; border-bottom: 1px solid var(--border); }
@@ -183,11 +153,19 @@
     font-size: 0.75rem;
     color: var(--muted);
   }
+  .section-hint {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: -18px;
+    margin-bottom: 24px;
+    opacity: 0.75;
+  }
 
-  /* ---- Skills grid (service cards) ---- */
+  /* ---- Skills grid (clickable service cards) ---- */
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 14px;
   }
   .service {
@@ -195,9 +173,29 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px 18px;
-    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
   }
-  .service:hover { border-color: #2f3948; background: var(--bg-panel-hover); }
+  .service::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .service:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-panel-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  }
+  .service:hover::before { transform: scaleX(1); }
+  .service:active { transform: translateY(-1px); }
   .service-top {
     display: flex;
     align-items: center;
@@ -223,6 +221,21 @@
     font-size: 0.82rem;
     color: var(--muted);
     line-height: 1.5;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
+  }
+  .service.open .service-desc {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 8px;
+  }
+  .service-toggle-hint {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    opacity: 0.6;
   }
 
   /* ---- Cert banner ---- */
@@ -235,6 +248,11 @@
     border: 1px solid rgba(224,169,65,0.3);
     border-radius: 8px;
     padding: 16px 20px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .cert-banner:hover {
+    transform: translateY(-2px);
+    border-color: rgba(224,169,65,0.55);
   }
   .cert-badge {
     font-family: var(--mono);
@@ -244,7 +262,7 @@
   .cert-text .title { font-weight: 600; color: var(--text); font-size: 0.95rem; }
   .cert-text .sub { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
-  /* ---- Projects (deployment log) ---- */
+  /* ---- Projects (clickable accordion) ---- */
   .deploy-list { display: flex; flex-direction: column; gap: 14px; }
   .deploy {
     background: var(--bg-panel);
@@ -252,6 +270,15 @@
     border-left: 3px solid var(--green);
     border-radius: 8px;
     padding: 20px 22px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .deploy:hover {
+    border-color: var(--border-hover);
+    border-left-color: var(--green);
+    background: var(--bg-panel-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
   }
   .deploy-head {
     display: flex;
@@ -259,8 +286,8 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 10px;
   }
+  .deploy-name-wrap { display: flex; align-items: center; gap: 10px; }
   .deploy-name {
     font-family: var(--mono);
     font-weight: 600;
@@ -277,15 +304,26 @@
     border-radius: 20px;
     text-transform: uppercase;
   }
-  .deploy-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 12px; }
-  .deploy-desc.placeholder {
-    color: var(--amber);
-    font-style: italic;
-    background: rgba(224,169,65,0.06);
-    border: 1px dashed rgba(224,169,65,0.3);
-    padding: 8px 12px;
-    border-radius: 6px;
+  .deploy-chevron {
+    font-family: var(--mono);
+    color: var(--muted);
+    transition: transform 0.25s ease;
+    font-size: 0.9rem;
   }
+  .deploy.open .deploy-chevron { transform: rotate(90deg); color: var(--green); }
+
+  .deploy-body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+  }
+  .deploy.open .deploy-body {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 14px;
+  }
+  .deploy-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 12px; line-height: 1.65; }
   .deploy-stack {
     display: flex;
     flex-wrap: wrap;
@@ -299,6 +337,11 @@
     border: 1px solid rgba(90,162,255,0.25);
     padding: 3px 9px;
     border-radius: 20px;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .stack-pill:hover {
+    background: rgba(90,162,255,0.18);
+    transform: translateY(-1px);
   }
 
   /* ---- Footer ---- */
@@ -312,8 +355,7 @@
   footer .dot { color: var(--green); }
 
   @media (max-width: 600px) {
-    .uptime-card { flex-direction: column; align-items: flex-start; }
-    .uptime-since { text-align: left; }
+    .deploy-name { font-size: 0.95rem; }
   }
 </style>
 </head>
@@ -330,26 +372,15 @@
 
   <section class="hero">
     <div class="eyebrow">whoami</div>
-    <h1>Hemanth Y J <span class="accent">/24</span></h1>
+    <h1>Hemanth Y J</h1>
     <div class="role-line">
       <strong>Associate Cloud &amp; DevOps Engineer</strong> — currently deployed at Infanion Software Solutions
     </div>
 
     <div class="meta-row">
-      <div class="meta-chip">age: <b>24</b></div>
       <div class="meta-chip">role: <b>Associate Cloud &amp; DevOps Engineer</b></div>
       <div class="meta-chip">cert: <b>AWS SAA</b></div>
       <div class="meta-chip">status: <b style="color:var(--green)">active</b></div>
-    </div>
-
-    <div class="uptime-card">
-      <div>
-        <div class="uptime-label">uptime @ infanion software solutions</div>
-        <div class="uptime-value" id="uptime-counter">— <span>days</span></div>
-      </div>
-      <div class="uptime-since">
-        deployed on<br><b>21 Apr 2025</b>
-      </div>
     </div>
   </section>
 
@@ -357,33 +388,52 @@
     <div class="section-head">
       <h2>services // skills</h2>
       <div class="rule"></div>
-      <div class="count">7 active</div>
+      <div class="count">6 active</div>
     </div>
+    <div class="section-hint">click a service to expand →</div>
 
     <div class="services-grid">
-      <div class="service">
-        <div class="service-top"><span class="service-name">AWS</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Core cloud platform — provisioning, IAM, networking &amp; managed services.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">AWS</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Core cloud platform — provisioning, IAM, networking, EC2, RDS, and managed services across production workloads.</div>
       </div>
-      <div class="service">
-        <div class="service-top"><span class="service-name">Azure</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Secondary cloud platform for multi-cloud workloads and resource management.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">Azure</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Secondary cloud platform for multi-cloud workloads — App Service, Static Web Apps, Key Vault, and Front Door.</div>
       </div>
-      <div class="service">
-        <div class="service-top"><span class="service-name">Docker</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Containerizing applications for consistent builds and deployments.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">Docker</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Containerizing applications for consistent builds and deployments across environments.</div>
       </div>
-      <div class="service">
-        <div class="service-top"><span class="service-name">Terraform</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Infrastructure as code — reproducible, version-controlled environments.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">Terraform</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Infrastructure as code — reproducible, version-controlled environments across cloud providers.</div>
       </div>
-      <div class="service">
-        <div class="service-top"><span class="service-name">Prometheus</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Metrics collection and alerting across infrastructure and services.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">Prometheus</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Metrics collection and alerting across infrastructure and services in production.</div>
       </div>
-      <div class="service">
-        <div class="service-top"><span class="service-name">Grafana</span><span class="service-status">● live</span></div>
-        <div class="service-desc">Dashboards and visualization for monitoring system health.</div>
+      <div class="service" onclick="this.classList.toggle('open')">
+        <div class="service-top">
+          <span class="service-name">Grafana</span>
+          <span class="service-status">● live</span>
+        </div>
+        <div class="service-desc">Dashboards and visualization for real-time monitoring of system health.</div>
       </div>
     </div>
 
@@ -402,51 +452,82 @@
       <div class="rule"></div>
       <div class="count">3 shipped</div>
     </div>
+    <div class="section-hint">click a project to expand details →</div>
 
     <div class="deploy-list">
-      <div class="deploy">
+
+      <div class="deploy" onclick="this.classList.toggle('open')">
         <div class="deploy-head">
-          <span class="deploy-name">era.be</span>
+          <div class="deploy-name-wrap">
+            <span class="deploy-chevron">▶</span>
+            <span class="deploy-name">era.be</span>
+          </div>
           <span class="deploy-tag">shipped</span>
         </div>
-        <div class="deploy-desc placeholder">
-          Add your actual project summary here — e.g. what era.be does, your role in it, and the infra/cloud work you handled.
-        </div>
-        <div class="deploy-stack">
-          <span class="stack-pill">AWS</span>
-          <span class="stack-pill">Docker</span>
-          <span class="stack-pill">Terraform</span>
+        <div class="deploy-body">
+          <div class="deploy-desc">
+            Designed and managed the AWS infrastructure end-to-end using Terraform for reproducible, version-controlled provisioning. EC2 instances sit behind an Application Load Balancer for traffic distribution, with Auto Scaling configured to add or remove instances based on load, keeping the app responsive under varying traffic without over-provisioning. AWS WAF is attached at the edge to filter malicious requests before they reach the application layer. Data is served through RDS for durable relational storage, with ElastiCache in front of it to cut down repeated database load and speed up frequent reads. CloudWatch ties it all together with metrics, logs, and alarms across the stack, so issues surface before they become outages.
+          </div>
+          <div class="deploy-stack">
+            <span class="stack-pill">EC2</span>
+            <span class="stack-pill">Auto Scaling</span>
+            <span class="stack-pill">Load Balancer</span>
+            <span class="stack-pill">WAF</span>
+            <span class="stack-pill">RDS</span>
+            <span class="stack-pill">ElastiCache</span>
+            <span class="stack-pill">CloudWatch</span>
+            <span class="stack-pill">Docker</span>
+            <span class="stack-pill">Terraform</span>
+          </div>
         </div>
       </div>
 
-      <div class="deploy">
+      <div class="deploy" onclick="this.classList.toggle('open')">
         <div class="deploy-head">
-          <span class="deploy-name">Bleckmann ENPS</span>
+          <div class="deploy-name-wrap">
+            <span class="deploy-chevron">▶</span>
+            <span class="deploy-name">Bleckmann ENPS</span>
+          </div>
           <span class="deploy-tag">shipped</span>
         </div>
-        <div class="deploy-desc placeholder">
-          Add your actual project summary here — what ENPS is for Bleckmann, your responsibilities, and any monitoring/CI-CD you set up.
-        </div>
-        <div class="deploy-stack">
-          <span class="stack-pill">AWS</span>
-          <span class="stack-pill">Prometheus</span>
-          <span class="stack-pill">Grafana</span>
+        <div class="deploy-body">
+          <div class="deploy-desc">
+            Handled the AWS infrastructure for Bleckmann's ENPS platform, built around EC2 instances running behind a Load Balancer to distribute incoming traffic evenly and keep the app available if any single instance has issues. Auto Scaling adjusts instance count automatically as demand shifts, so the platform stays performant during peak load without paying for idle capacity the rest of the time. CloudFront sits in front as the CDN layer, caching static content at edge locations closer to users for faster load times and reduced load on the origin servers. Prometheus and Grafana handle metrics collection and visualization, giving continuous visibility into system health and surfacing anomalies early.
+          </div>
+          <div class="deploy-stack">
+            <span class="stack-pill">EC2</span>
+            <span class="stack-pill">Load Balancer</span>
+            <span class="stack-pill">Auto Scaling</span>
+            <span class="stack-pill">CloudFront</span>
+            <span class="stack-pill">Prometheus</span>
+            <span class="stack-pill">Grafana</span>
+          </div>
         </div>
       </div>
 
-      <div class="deploy">
+      <div class="deploy" onclick="this.classList.toggle('open')">
         <div class="deploy-head">
-          <span class="deploy-name">DailyWorkManager</span>
+          <div class="deploy-name-wrap">
+            <span class="deploy-chevron">▶</span>
+            <span class="deploy-name">DailyWorkManager</span>
+          </div>
           <span class="deploy-tag">shipped</span>
         </div>
-        <div class="deploy-desc placeholder">
-          Add your actual project summary here — what DailyWorkManager does and the cloud/devops work you contributed.
-        </div>
-        <div class="deploy-stack">
-          <span class="stack-pill">Azure App Service</span>
-          <span class="stack-pill">Azure Static Web App</span>
+        <div class="deploy-body">
+          <div class="deploy-desc">
+            Built and managed the Azure infrastructure for DailyWorkManager using a split hosting approach — Azure App Service runs the backend application logic, while the frontend is served separately through Azure Static Web Apps for fast, CDN-backed delivery. Azure Front Door sits at the entry point, providing global routing, load balancing, and an additional layer of edge acceleration and security in front of both services. Azure Key Vault centralizes secrets, connection strings, and credentials so sensitive configuration never lives in application code. Data persistence runs on Azure Database for PostgreSQL, with Azure Cache for Redis layered in front to reduce database load and speed up frequently accessed data.
+          </div>
+          <div class="deploy-stack">
+            <span class="stack-pill">Azure App Service</span>
+            <span class="stack-pill">Azure Static Web App</span>
+            <span class="stack-pill">Azure Front Door</span>
+            <span class="stack-pill">Azure Key Vault</span>
+            <span class="stack-pill">Azure Database for PostgreSQL</span>
+            <span class="stack-pill">Azure Cache for Redis</span>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -457,19 +538,6 @@
 </div>
 
 <script>
-  // Live uptime counter since join date (21 Apr 2025)
-  function updateUptime() {
-    const joinDate = new Date('2025-04-21T00:00:00');
-    const now = new Date();
-    const diffMs = now - joinDate;
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const el = document.getElementById('uptime-counter');
-    if (el) {
-      el.innerHTML = days.toLocaleString() + ' <span>days</span>';
-    }
-  }
-  updateUptime();
-
   // Live clock in status bar
   function updateClock() {
     const now = new Date();
